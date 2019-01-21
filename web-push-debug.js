@@ -223,52 +223,51 @@ module.exports = {
         }
 
         return new Promise(function (resolve, reject) {
-            resolve();
-            // const httpsOptions = {};
-            // const urlParts = url.parse(requestDetails.endpoint);
-            // httpsOptions.hostname = urlParts.hostname;
-            // httpsOptions.port = urlParts.port;
-            // httpsOptions.path = urlParts.path;
-            //
-            // httpsOptions.headers = requestDetails.headers;
-            // httpsOptions.method = requestDetails.method;
-            //
-            // if (requestDetails.proxy) {
-            //     httpsOptions.agent = new HttpsProxyAgent(requestDetails.proxy);
-            // }
-            //
-            // const pushRequest = https.request(httpsOptions, function (pushResponse) {
-            //     let responseText = '';
-            //
-            //     pushResponse.on('data', function (chunk) {
-            //         responseText += chunk;
-            //     });
-            //
-            //     pushResponse.on('end', function () {
-            //         if (pushResponse.statusCode < 200 || pushResponse.statusCode > 299) {
-            //             reject(new WebPushError(
-            //                 'Received unexpected response code',
-            //                 pushResponse.statusCode, pushResponse.headers, responseText, requestDetails.endpoint
-            //             ));
-            //         } else {
-            //             resolve({
-            //                 statusCode: pushResponse.statusCode,
-            //                 body: responseText,
-            //                 headers: pushResponse.headers
-            //             });
-            //         }
-            //     });
-            // });
-            //
-            // pushRequest.on('error', function (e) {
-            //     reject(e);
-            // });
-            //
-            // if (requestDetails.body) {
-            //     pushRequest.write(requestDetails.body);
-            // }
-            //
-            // pushRequest.end();
+            const httpksOptions = {};
+            const urlParts = url.parse(requestDetails.endpoint);
+            httpsOptions.hostname = urlParts.hostname;
+            httpsOptions.port = urlParts.port;
+            httpsOptions.path = urlParts.path;
+
+            httpsOptions.headers = requestDetails.headers;
+            httpsOptions.method = requestDetails.method;
+
+            if (requestDetails.proxy) {
+                httpsOptions.agent = new HttpsProxyAgent(requestDetails.proxy);
+            }
+
+            const pushRequest = https.request(httpsOptions, function (pushResponse) {
+                let responseText = '';
+
+                pushResponse.on('data', function (chunk) {
+                    responseText += chunk;
+                });
+
+                pushResponse.on('end', function () {
+                    if (pushResponse.statusCode < 200 || pushResponse.statusCode > 299) {
+                        reject(new WebPushError(
+                            'Received unexpected response code',
+                            pushResponse.statusCode, pushResponse.headers, responseText, requestDetails.endpoint
+                        ));
+                    } else {
+                        resolve({
+                            statusCode: pushResponse.statusCode,
+                            body: responseText,
+                            headers: pushResponse.headers
+                        });
+                    }
+                });
+            });
+
+            pushRequest.on('error', function (e) {
+                reject(e);
+            });
+
+            if (requestDetails.body) {
+                pushRequest.write(requestDetails.body);
+            }
+
+            pushRequest.end();
         });
     }
 
