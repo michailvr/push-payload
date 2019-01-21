@@ -223,7 +223,7 @@ module.exports = {
         }
 
         return new Promise(function (resolve, reject) {
-            const httpksOptions = {};
+            const httpsOptions = {};
             const urlParts = url.parse(requestDetails.endpoint);
             httpsOptions.hostname = urlParts.hostname;
             httpsOptions.port = urlParts.port;
