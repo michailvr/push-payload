@@ -1,0 +1,19 @@
+{
+  "name": "push-payload",
+  "version": "1.0.0",
+  "description": "Send push notifications with a payload. This recipe shows how to send and receive a string, but data can be extracted from a Push message in a variety of formats (string, ArrayBuffer, Blob, JSON).",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "https-proxy-agent": "^2.2.1",
+    "urlsafe-base64": "^1.0.0",
+    "web-push": "^3.3.3"
+  }
+}
